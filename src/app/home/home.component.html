@@ -1,0 +1,29 @@
+<div class="main_div">
+  <div *ngIf="auth.isAuthenticated" class="photo_logout">
+    <div class="photo">
+      <img class="photo_image" src="../assets/shah-rukh.jpg" alt="Profile photo">
+      <div class="name_container">
+        <p>Shahrukh Khan</p>
+      </div>
+    </div>
+  </div>
+  <div class="main_options_div">
+    <div class="phone_input_div">
+      <form class="user_search">
+        <mat-form-field>
+          <mat-label>Search user by phone</mat-label>
+          <input type="tel" matInput placeholder="9876543210">
+          <mat-icon matPrefix>person_search</mat-icon>
+        </mat-form-field>
+      </form>
+    </div>
+    <mat-divider [vertical]="true"></mat-divider>
+    <div class="update_wishlist_div">
+      <button *ngIf="!auth.isAuthenticated" mat-raised-button (click)="openLoginDialog()">Update your wishlist</button>
+      <button *ngIf="auth.isAuthenticated" mat-raised-button
+      routerLink="/wishlist"
+      >Update your wishlist</button>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

@@ -1,11 +1,26 @@
 <mat-toolbar>
-  <mat-icon>home</mat-icon>
-
+  <button mat-button>
+    <mat-icon>home</mat-icon>
+  </button>
   <span class="spacer"></span>
   <div class="header_opt">
     <button mat-stroked-button>
       How it works?
     </button>
-    <button mat-stroked-button>About Us</button>
+    <div class="logout">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="logout()" [disabled]="!auth.isAuthenticated">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+        <button mat-menu-item (click)="AboutUs()">
+          <mat-icon>help_outline</mat-icon>
+          <span>About Us</span>
+        </button>
+      </mat-menu>
+    </div>
   </div>
 </mat-toolbar>

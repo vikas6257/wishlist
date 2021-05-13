@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "wear-customs": {
+      "hosting": {
+        "wishlist": [
+          "wear-customs"
+        ]
+      }
+    }
+  }
+}
