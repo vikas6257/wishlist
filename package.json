@@ -23,6 +23,7 @@
     "@angular/platform-browser": "~11.2.13",
     "@angular/platform-browser-dynamic": "~11.2.13",
     "@angular/router": "~11.2.13",
+    "@firebase/database": "^0.10.1",
     "cropperjs": "^1.5.11",
     "firebase": "^7.0 || ^8.0",
     "rxjs": "^6.6.7",

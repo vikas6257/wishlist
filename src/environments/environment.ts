@@ -12,7 +12,8 @@ export const environment = {
   storageBucket: "wishlist-9d4d2.appspot.com",
   messagingSenderId: "160097636376",
   appId: "1:160097636376:web:99466783662fa2d274b36d",
-  measurementId: "G-PRD5RZ0CXN"
+  measurementId: "G-PRD5RZ0CXN",
+  databaseURL: "https://wishlist-9d4d2-default-rtdb.firebaseio.com",
   }
 };
 

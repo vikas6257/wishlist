@@ -1,2 +1,30 @@
-<p>User is authentication? {{isAuthenticated}}</p>
-<button mat-raised-button (click)="isUserAuthenticated()">Check authentication</button>
+<div class="photo_logout">
+  <div class="photo">
+    <img class="photo_image" src="../assets/shah-rukh.jpg" alt="Profile photo">
+    <div class="name_container">
+      <p>Shahrukh Khan</p>
+    </div>
+  </div>
+</div>
+<div class="wishlist">
+  <div class="wishlist_input">
+    <div class="edit_slider">
+      <mat-slide-toggle [(ngModel)]="isEditEnabled">Edit</mat-slide-toggle>
+    </div>
+    <mat-divider [vertical]="true"></mat-divider>
+    <div class="input_button">
+      <button mat-raised-button (click)="addWish()">Add a wish</button>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+</div>
+<div class="whishlist_div">
+  <mat-card class="wishitem" *ngFor="let wish of wishList">
+    <a href={{wish.wishLink}} target="_blank">{{wish.wishName}}</a><br>
+    {{wish.wishDescript}}
+    <mat-card-actions *ngIf="isEditEnabled">
+      <button mat-button><mat-icon>edit</mat-icon></button>
+      <button mat-button><mat-icon>delete</mat-icon></button>
+    </mat-card-actions>
+  </mat-card>
+</div>

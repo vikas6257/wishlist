@@ -1,0 +1,63 @@
+.photo_image {
+  width: 100%;
+}
+
+.name_container {
+  text-align: center;
+}
+
+.photo_logout {
+  top: 25%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 25px;
+}
+
+.photo {
+}
+
+.wishlist {
+  top: 40%;
+  left: 38%;
+  position: absolute;
+  width: 400px;
+}
+
+.wishlist_input {
+  align-content: center;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 5px;
+}
+
+.wishitem {
+  margin: 10px;
+  min-width: 300px;
+}
+
+.whishlist_div {
+  top: 45%;
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-top: 10px;
+}
+
+.input {
+}
+
+.input_button {
+  padding-left: 10px;
+}
+
+.edit_slider {
+  padding-right: 10px;
+}

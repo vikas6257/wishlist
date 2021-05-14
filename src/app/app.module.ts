@@ -12,11 +12,13 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserWishlistComponent } from './user-wishlist/user-wishlist.component';
+import { WishlistFormComponent } from './wishlist-form/wishlist-form.component';
 
 const routes: Routes = [
   {path: 'wishlist', component: UserWishlistComponent},
   {path: 'home', component: HomeComponent},
-  { path: '',   redirectTo: 'home', pathMatch: 'full' }
+  { path: '',   redirectTo: 'home', pathMatch: 'full' },
+  {path: 'wishlist-form', component: WishlistFormComponent}
   // {path: '**', component: PageNotFoundComponent}
 ];
 
@@ -26,7 +28,8 @@ const routes: Routes = [
     HeaderComponent,
     HomeComponent,
     LoginComponent,
-    UserWishlistComponent
+    UserWishlistComponent,
+    WishlistFormComponent
   ],
   imports: [
     BrowserModule,

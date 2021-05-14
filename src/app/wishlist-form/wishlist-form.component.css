@@ -1,0 +1,13 @@
+.form_div {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.description_input {
+  width: 100%;
+}
+
+.link_input {
+  width: 100%;
+}
