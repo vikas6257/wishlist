@@ -16,8 +16,12 @@ export class FirebaseService {
   authState: any
   private firebaseApp: any
   captchaObserver: any
+  isAuthObserver: any
   captchaVerifiedObservable = new Observable<boolean>(observer => {
     this.captchaObserver = observer;
+  });
+  isAuthObservable = new Observable<boolean>(observer => {
+    this.isAuthObserver = observer;
   });
 
   constructor(public win: WindowService
@@ -28,8 +32,10 @@ export class FirebaseService {
     this.firebaseApp.auth().onAuthStateChanged((user) => {
       if (user) {
         this.authState = user;
+        this.isAuthObserver.next(true);
       } else {
         this.authState = null;
+        this.isAuthObserver.next(false);
       }
     });
   }

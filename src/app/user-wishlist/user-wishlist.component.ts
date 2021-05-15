@@ -5,6 +5,7 @@ import { WishlistFormComponent } from "../wishlist-form/wishlist-form.component"
 import { DbOperationService } from '../db-operation.service'
 
 interface wishlistinfo {
+  key?: string;
   wishName: any;
   wishLink: any;
   wishDescript: any;
@@ -18,32 +19,33 @@ interface wishlistinfo {
 export class UserWishlistComponent implements OnInit {
 
   isAuthenticated = false;
-  wishlistData: wishlistinfo = {wishName:'', wishLink:'', wishDescript:''};
+  wishlistData: wishlistinfo = {'wishName': '', 'wishLink': '', 'wishDescript': ''};
   wishList: wishlistinfo[] = [];
   isEditEnabled = false;
+  dbData: any;
 
-  constructor(private FirebaseAuth: FirebaseService,
+  constructor(private firebaseAuth: FirebaseService,
     public dialog: MatDialog,
-    public firebaseDb: DbOperationService
-  ) {
-    this.wishList.push({wishName: 'Iphone 11', wishLink: 'https://www.amazon.in/New-Apple-iPhone-11-128GB/dp/B08L8BJ9VC/ref=sr_1_1?dchild=1&keywords=iphone+11&qid=1620992485&sr=8-1', wishDescript:'New phone'});
-    this.wishList.push({wishName: 'Iphone 11', wishLink: 'https://www.amazon.in/New-Apple-iPhone-11-128GB/dp/B08L8BJ9VC/ref=sr_1_1?dchild=1&keywords=iphone+11&qid=1620992485&sr=8-1', wishDescript:'New phone'});
-    this.wishList.push({wishName: 'Iphone 11', wishLink: 'https://www.amazon.in/New-Apple-iPhone-11-128GB/dp/B08L8BJ9VC/ref=sr_1_1?dchild=1&keywords=iphone+11&qid=1620992485&sr=8-1', wishDescript:'New phone'});
-    this.wishList.push({wishName: 'Iphone 11', wishLink: 'https://www.amazon.in/New-Apple-iPhone-11-128GB/dp/B08L8BJ9VC/ref=sr_1_1?dchild=1&keywords=iphone+11&qid=1620992485&sr=8-1', wishDescript:'New phone'});
-    this.wishList.push({wishName: 'Iphone 11', wishLink: 'https://www.amazon.in/New-Apple-iPhone-11-128GB/dp/B08L8BJ9VC/ref=sr_1_1?dchild=1&keywords=iphone+11&qid=1620992485&sr=8-1', wishDescript:'New phone'});
-    this.wishList.push({wishName: 'Iphone 11', wishLink: 'https://www.amazon.in/New-Apple-iPhone-11-128GB/dp/B08L8BJ9VC/ref=sr_1_1?dchild=1&keywords=iphone+11&qid=1620992485&sr=8-1', wishDescript:'New phone'});
-    this.wishList.push({wishName: 'Iphone 11', wishLink: 'https://www.amazon.in/New-Apple-iPhone-11-128GB/dp/B08L8BJ9VC/ref=sr_1_1?dchild=1&keywords=iphone+11&qid=1620992485&sr=8-1', wishDescript:'New phone'});
-    this.wishList.push({wishName: 'Iphone 11', wishLink: 'https://www.amazon.in/New-Apple-iPhone-11-128GB/dp/B08L8BJ9VC/ref=sr_1_1?dchild=1&keywords=iphone+11&qid=1620992485&sr=8-1', wishDescript:'New phone'});
-    this.wishList.push({wishName: 'Iphone 11', wishLink: 'https://www.amazon.in/New-Apple-iPhone-11-128GB/dp/B08L8BJ9VC/ref=sr_1_1?dchild=1&keywords=iphone+11&qid=1620992485&sr=8-1', wishDescript:'New phone'});
-    this.wishList.push({wishName: 'Iphone 11', wishLink: 'https://www.amazon.in/New-Apple-iPhone-11-128GB/dp/B08L8BJ9VC/ref=sr_1_1?dchild=1&keywords=iphone+11&qid=1620992485&sr=8-1', wishDescript:'New phone'});
-    this.wishList.push({wishName: 'Iphone 11', wishLink: 'https://www.amazon.in/New-Apple-iPhone-11-128GB/dp/B08L8BJ9VC/ref=sr_1_1?dchild=1&keywords=iphone+11&qid=1620992485&sr=8-1', wishDescript:'New phone'});
-    this.wishList.push({wishName: 'Iphone 11', wishLink: 'https://www.amazon.in/New-Apple-iPhone-11-128GB/dp/B08L8BJ9VC/ref=sr_1_1?dchild=1&keywords=iphone+11&qid=1620992485&sr=8-1', wishDescript:'New phone'});
-  }
+    public firebaseDb: DbOperationService,
+  ) {}
 
   ngOnInit(): void {
-    console.log('User is authenticated? '+this.FirebaseAuth.isAuthenticated);
-    this.isAuthenticated = this.FirebaseAuth.isAuthenticated;
-    console.log(this.firebaseDb.getDbSnapshot());
+    this.firebaseDb.dbSnapshotForUserObservble.subscribe((res) => {
+      this.dbData = res;
+      this.dbData.forEach((childSnapshot) => {
+        var snapVal = childSnapshot.val();
+        this.wishList.push({
+          key: childSnapshot.key,
+          wishName: snapVal.wishName,
+          wishLink: snapVal.wishLink,
+          wishDescript: snapVal.wishDescript
+        });
+      });
+    });
+    this.firebaseAuth.isAuthObservable.subscribe((res) => {
+      this.isAuthenticated = res;
+      this.firebaseDb.getDbSnapshotForUser(this.firebaseAuth.authState.uid);
+    });
   }
 
 
@@ -56,13 +58,15 @@ export class UserWishlistComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
       this.wishlistData.wishName = result.wishName;
       this.wishlistData.wishLink = result.wishLink;
       this.wishlistData.wishDescript = result.wishDescript;
       this.wishList.push({wishName: result.wishName,
         wishLink: result.wishLink, wishDescript: result.wishDescript});
+      this.firebaseDb.writeToDB(this.firebaseAuth.authState.uid,
+        {wishName: result.wishName,
+          wishLink: result.wishLink,
+          wishDescript: result.wishDescript});
     });
   }
 }

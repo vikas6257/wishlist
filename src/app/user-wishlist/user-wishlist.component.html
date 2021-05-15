@@ -1,4 +1,4 @@
-<div class="photo_logout">
+<div *ngIf="this.isAuthenticated" class="photo_logout">
   <div class="photo">
     <img class="photo_image" src="../assets/shah-rukh.jpg" alt="Profile photo">
     <div class="name_container">
@@ -6,7 +6,7 @@
     </div>
   </div>
 </div>
-<div class="wishlist">
+<div *ngIf="this.isAuthenticated" class="wishlist">
   <div class="wishlist_input">
     <div class="edit_slider">
       <mat-slide-toggle [(ngModel)]="isEditEnabled">Edit</mat-slide-toggle>
@@ -18,7 +18,7 @@
   </div>
   <mat-divider></mat-divider>
 </div>
-<div class="whishlist_div">
+<div *ngIf="this.isAuthenticated"  class="whishlist_div">
   <mat-card class="wishitem" *ngFor="let wish of wishList">
     <a href={{wish.wishLink}} target="_blank">{{wish.wishName}}</a><br>
     {{wish.wishDescript}}
