@@ -9,7 +9,7 @@
 <div *ngIf="this.isAuthenticated" class="wishlist">
   <div class="wishlist_input">
     <div class="edit_slider">
-      <mat-slide-toggle [(ngModel)]="isEditEnabled">Edit</mat-slide-toggle>
+      <mat-slide-toggle color="primary" [(ngModel)]="isEditEnabled">Edit</mat-slide-toggle>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="input_button">
@@ -23,8 +23,8 @@
     <a href={{wish.wishLink}} target="_blank">{{wish.wishName}}</a><br>
     {{wish.wishDescript}}
     <mat-card-actions *ngIf="isEditEnabled">
-      <button mat-button><mat-icon>edit</mat-icon></button>
-      <button mat-button><mat-icon>delete</mat-icon></button>
+      <button mat-button (click)="editWish(wish.key, wish.wishName, wish.wishLink, wish.wishDescript)"><mat-icon>edit</mat-icon></button>
+      <button mat-button (click)="deleteWish(wish.key)"><mat-icon>delete</mat-icon></button>
     </mat-card-actions>
   </mat-card>
 </div>

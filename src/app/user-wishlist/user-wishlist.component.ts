@@ -48,8 +48,7 @@ export class UserWishlistComponent implements OnInit {
     });
   }
 
-
-  addWish() {
+  openLoginDialogBox() {
     const dialogRef = this.dialog.open(WishlistFormComponent, {
       width: '500px',
       data: {wishName: this.wishlistData.wishName,
@@ -61,12 +60,57 @@ export class UserWishlistComponent implements OnInit {
       this.wishlistData.wishName = result.wishName;
       this.wishlistData.wishLink = result.wishLink;
       this.wishlistData.wishDescript = result.wishDescript;
-      this.wishList.push({wishName: result.wishName,
-        wishLink: result.wishLink, wishDescript: result.wishDescript});
-      this.firebaseDb.writeToDB(this.firebaseAuth.authState.uid,
+      var keyRef = this.firebaseDb.writeToDB(this.firebaseAuth.authState.uid,
         {wishName: result.wishName,
           wishLink: result.wishLink,
           wishDescript: result.wishDescript});
+      this.wishList.push({key: keyRef,
+            wishName: result.wishName,
+            wishLink: result.wishLink, wishDescript: result.wishDescript});
     });
+  }
+
+  addWish() {
+    this.openLoginDialogBox();
+  }
+
+  deleteWish(wishKey) {
+    var wishList_tmp: wishlistinfo[] = [];
+    for (let i=0; i<this.wishList.length; i++) {
+      if (this.wishList[i].key != wishKey) {
+        wishList_tmp.push(this.wishList[i]);
+      }
+    }
+    this.wishList = wishList_tmp;
+
+    this.firebaseDb.removeFromDb(this.firebaseAuth.authState.uid, wishKey);
+  }
+
+  editWish(wishKey, wishName, wishLink, wishDescript) {
+      const dialogRef = this.dialog.open(WishlistFormComponent, {
+        width: '500px',
+        data: {wishName: wishName,
+          wishLink: wishLink,
+          wishDescript: wishDescript}
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (!result) {
+          return;
+        }
+        for (let i=0; i<this.wishList.length; i++) {
+          if (this.wishList[i].key == wishKey) {
+            this.wishList[i].wishName = result.wishName;
+            this.wishList[i].wishLink = result.wishLink;
+            this.wishList[i].wishDescript = result.wishDescript;
+          }
+        }
+
+        var keyRef = this.firebaseDb.updateDbUserList(this.firebaseAuth.authState.uid,
+          wishKey,
+          {wishName: result.wishName,
+            wishLink: result.wishLink,
+            wishDescript: result.wishDescript});
+      });
   }
 }

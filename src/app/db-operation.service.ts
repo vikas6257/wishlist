@@ -43,5 +43,14 @@ export class DbOperationService {
   writeToDB(uid, data) {
     var key = this.dbRef.child(uid).push().key;
     this.dbRef.child(uid).child(key).set(data);
+    return key;
+  }
+
+  removeFromDb(uid, listKey) {
+    this.dbRef.child(uid).child(listKey).remove()
+  }
+
+  updateDbUserList(uid, listKey, data) {
+    this.dbRef.child(uid).child(listKey).update(data)
   }
 }

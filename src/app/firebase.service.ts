@@ -17,15 +17,18 @@ export class FirebaseService {
   private firebaseApp: any
   captchaObserver: any
   isAuthObserver: any
-  captchaVerifiedObservable = new Observable<boolean>(observer => {
-    this.captchaObserver = observer;
-  });
-  isAuthObservable = new Observable<boolean>(observer => {
-    this.isAuthObserver = observer;
-  });
+  isAuthObservable: any
+  captchaVerifiedObservable: any
 
   constructor(public win: WindowService
   ) {
+    this.isAuthObservable = new Observable<boolean>(observer => {
+      this.isAuthObserver = observer;
+    });
+    this.captchaVerifiedObservable = new Observable<boolean>(observer => {
+      this.captchaObserver = observer;
+    });
+
     this.firebaseApp = firebase.initializeApp(environment.firebaseConfig);
     this.windowRef = this.win.windowRef;
     this.authState = null;
